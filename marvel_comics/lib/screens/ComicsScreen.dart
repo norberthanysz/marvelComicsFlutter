@@ -4,6 +4,8 @@ import 'package:marvel_comics/models/MarvelThumbnailModel.dart';
 import 'package:marvel_comics/widgets/ComicWidget.dart';
 
 class ComicsScreen extends StatelessWidget {
+  static const routeName = '/comics-screen';
+
   final List<MarvelResultModel> comics = [
     MarvelResultModel(
         id: "1",
@@ -20,6 +22,7 @@ class ComicsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text("Marvel Comics"),
       ),
       body: ListView.builder(

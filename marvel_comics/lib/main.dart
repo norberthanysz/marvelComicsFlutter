@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import './screens/NoInternetScreen.dart';
+import './screens/SplashScreen.dart';
 import './screens/comicsScreen.dart';
 
 void main() => runApp(MyApp());
@@ -13,7 +15,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.red,
         accentColor: Colors.white,
       ),
-      home: ComicsScreen(),
+      home: SplashScreen(),
+      routes: {
+        ComicsScreen.routeName: (context) => ComicsScreen(),
+        NoInternetScreen.routeName: (context) => NoInternetScreen(),
+      },
     );
   }
 }
