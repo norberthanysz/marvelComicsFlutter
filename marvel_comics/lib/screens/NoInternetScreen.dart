@@ -41,7 +41,9 @@ class NoInternetScreen extends StatelessWidget {
               child: Text(
                 "Try again...",
                 style: TextStyle(
-                    color: Theme.of(context).primaryColor, fontSize: 18.0),
+                  color: Theme.of(context).primaryColor,
+                  fontSize: 18.0,
+                ),
               ),
             ),
           ],

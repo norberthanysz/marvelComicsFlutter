@@ -59,7 +59,7 @@ class ComicWidget extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   Row(
                     children: <Widget>[
@@ -68,15 +68,6 @@ class ComicWidget extends StatelessWidget {
                         width: 5.0,
                       ),
                       Text("${comic.pageCount} pages"),
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Icon(Icons.style_outlined),
-                      SizedBox(
-                        width: 5.0,
-                      ),
-                      Text(comic.format),
                     ],
                   ),
                 ],

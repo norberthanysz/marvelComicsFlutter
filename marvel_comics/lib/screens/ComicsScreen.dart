@@ -1,23 +1,55 @@
 import 'package:flutter/material.dart';
-import 'package:marvel_comics/models/MarvelResultModel.dart';
-import 'package:marvel_comics/models/MarvelThumbnailModel.dart';
-import 'package:marvel_comics/widgets/ComicWidget.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import '../models/MarvelComicsModel.dart';
+import '../widgets/ComicWidget.dart';
 
-class ComicsScreen extends StatelessWidget {
+class ComicsScreen extends StatefulWidget {
   static const routeName = '/comics-screen';
 
-  final List<MarvelResultModel> comics = [
-    MarvelResultModel(
-        id: "1",
-        title: "TestComic",
-        description: "asdas dasdasdasdasda da da da dada dada da adaasdas",
-        pageCount: 125,
-        format: "comic",
-        thumbnail: MarvelThumbnailModel(
-            path:
-                "https://image.api.playstation.com/vulcan/img/cfn/11307RSOY0YPjr2OSOyHwixkMPLtwugfbK0qJ59Su4vVYEnYgoTQKZ2nVrUr9RAo8--DOk45lw0-7rUo2O5hJVg4Te4gV6RE",
-            ext: "png"))
-  ];
+  @override
+  _ComicsScreenState createState() => _ComicsScreenState();
+}
+
+class _ComicsScreenState extends State<ComicsScreen> {
+  MarvelComicsModel comicsList;
+
+  Future<bool> getComics() async {
+    final String baseUrl = "gateway.marvel.com";
+    final String endpoint = "/v1/public/comics";
+    final Map<String, String> queryParameters = {
+      'ts': "1",
+      'apikey': "3d3ce5daa8ec0f7c17afc52bb68f15f7",
+      'hash': "a45bdb0bf57b06e72ad4c2c5854e2843",
+      'limit': "25",
+      'orderBy': "-onsaleDate"
+    };
+    var headers = {'Content-Type': 'application/json'};
+    var uri = Uri.https(baseUrl, endpoint, queryParameters);
+    final response = await http.get(uri, headers: headers);
+
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      MarvelComicsModel comics = MarvelComicsModel.fromJson(data);
+      setState(
+        () {
+          comicsList = comics;
+        },
+      );
+    }
+    return true;
+  }
+
+  @override
+  void initState() {
+    Future.delayed(Duration.zero).then(
+      (_) {
+        getComics();
+      },
+    );
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,11 +57,18 @@ class ComicsScreen extends StatelessWidget {
         automaticallyImplyLeading: false,
         title: Text("Marvel Comics"),
       ),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(10.0),
-        itemCount: comics.length,
-        itemBuilder: (ctx, i) => ComicWidget(comics[i]),
-      ),
+      body: comicsList == null
+          ? Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(
+                    Theme.of(context).primaryColor),
+              ),
+            )
+          : ListView.builder(
+              padding: const EdgeInsets.all(10.0),
+              itemCount: comicsList.data.results.length,
+              itemBuilder: (ctx, i) => ComicWidget(comicsList.data.results[i]),
+            ),
     );
   }
 }

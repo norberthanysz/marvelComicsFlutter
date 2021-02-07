@@ -9,5 +9,9 @@ class MarvelThumbnailModel {
     return "$path.$ext";
   }
 
+  MarvelThumbnailModel.fromJson(Map<String, dynamic> json)
+      : path = json['path'],
+        ext = json['extension'];
+
   MarvelThumbnailModel({this.path, this.ext});
 }

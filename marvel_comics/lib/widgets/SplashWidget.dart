@@ -30,7 +30,7 @@ class _SplashWidgetState extends State<SplashWidget> {
       () => {
         internetConnectionCheck().then(
           (internet) {
-            if (internet != null && !internet) {
+            if (internet != null && internet) {
               Navigator.of(context).pushNamed(
                 ComicsScreen.routeName,
               );
