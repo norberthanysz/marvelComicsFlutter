@@ -25,12 +25,12 @@ class _SplashWidgetState extends State<SplashWidget> {
   Widget build(BuildContext context) {
     Timer(
       Duration(
-        seconds: 5,
+        seconds: 2,
       ),
       () => {
         internetConnectionCheck().then(
           (internet) {
-            if (internet != null && internet) {
+            if (internet != null && !internet) {
               Navigator.of(context).pushNamed(
                 ComicsScreen.routeName,
               );
